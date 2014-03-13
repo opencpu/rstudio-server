@@ -1,0 +1,6 @@
+opencpu-rstudio (0.98.501-trusty2) trusty; urgency=low
+
+  * Repack of rstudio-server
+
+ -- Jeroen Ooms <jeroen@opencpu.org>  Thu, 13 Mar 2014 18:00:00 -0800
+ 
