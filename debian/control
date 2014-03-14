@@ -1,4 +1,4 @@
-Source: opencpu-rstudio
+Source: rstudio
 Section: gnu-r
 Priority: optional
 Maintainer: Jeroen Ooms <jeroen@opencpu.org>
