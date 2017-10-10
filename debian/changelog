@@ -1,4 +1,4 @@
-rstudio (0.99.441-trusty0) trusty; urgency=low
+rstudio (1.1.383-xenial0) xenial; urgency=low
 
   * Repack of rstudio-server
 
