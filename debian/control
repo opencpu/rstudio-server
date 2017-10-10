@@ -1,12 +1,12 @@
 Source: rstudio
-Section: gnu-r
+Section: devel
 Priority: optional
 Maintainer: RStudio <info@rstudio.com>
-Build-Depends: r-base (>= 2.11.1), psmisc, libapparmor1, libedit2, libc6 (>= 2.7), xvfb, xauth, xfonts-base, debhelper (>> 4.1.0), pkg-config
+Build-Depends: debhelper (>> 4.1.0)
 Standards-Version: 3.9.4
 
 Package: rstudio-server
 Architecture: any
-Depends: psmisc, libapparmor1, libedit2, libc6 (>= 2.7)
+Depends: psmisc, libapparmor1, libedit2, sudo, lsb-release, libssl1.0.0 | libssl1.0.2,  libc6 (>= 2.7)
 Recommends: r-base (>= 2.11.1)
 Description: RStudio is a set of integrated tools designed to help you be more productive with R. It includes a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, and workspace management.
