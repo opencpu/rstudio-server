@@ -4,8 +4,7 @@
 set +e 
 
 # add rserver user account
-useradd -r rstudio-server
-groupadd -r rstudio-server
+useradd -r -U rstudio-server
 
 # create softlink to admin script in /usr/sbin
 ln -f -s /usr/lib/rstudio-server/bin/rstudio-server /usr/sbin/rstudio-server
@@ -21,6 +20,13 @@ then
   sh -c "echo '# R Session Configuration File\n\n' > /etc/rstudio/rsession.conf"
 fi
 
+# create directory for global custom themes
+mkdir -p /etc/rstudio/themes
+if ! test -f /etc/rstudio/themes/README.md
+then
+ cp /usr/lib/rstudio-server/extras/themes/README.md /etc/rstudio/themes/README.md
+fi
+
 # create var directories
 mkdir -p /var/run/rstudio-server
 mkdir -p /var/lock/rstudio-server
@@ -31,10 +37,26 @@ mkdir -p /var/lib/rstudio-server/body
 mkdir -p /var/lib/rstudio-server/proxy
 
 # suspend all sessions
-rstudio-server force-suspend-all
+rstudio-server force-suspend-all > /dev/null 2>&1
 
 # check lsb release
 LSB_RELEASE=`lsb_release --id --short`
+
+# disable apparmor profile if it exists
+if test -e /etc/apparmor.d/rstudio-server
+then
+   if test $LSB_RELEASE = "Ubuntu"
+   then
+      # disable the existing apparmor profile as we no longer support apparmor
+      # disabling it ensures it is not deleted in case it was modified locally
+      ln -s /etc/apparmor.d/rstudio-server /etc/apparmor.d/disable/
+      apparmor_parser -R /etc/apparmor.d/rstudio-server 2>/dev/null
+   else
+      # delete the profile entirely on non-Ubuntu platforms as it has been known to cause issues
+      rm -f /etc/apparmor.d/rstudio-server
+      invoke-rc.d apparmor reload 2>/dev/null
+   fi
+fi
 
 # determine which init system is in use
 # a variation on:
@@ -50,23 +72,12 @@ elif ps -p1 | grep init > /dev/null 2>&1; then
     fi
 fi
 
-# add apparmor profile (but don't for systemd as this borks up process management)
-if test $LSB_RELEASE = "Ubuntu" && test -d /etc/apparmor.d/ && ! test $INIT_SYSTEM = "systemd"
-then
-   cp /usr/lib/rstudio-server/extras/apparmor/rstudio-server /etc/apparmor.d/
-   apparmor_parser -r /etc/apparmor.d/rstudio-server 2>/dev/null
-elif test -e /etc/apparmor.d/rstudio-server
-then
-   rm -f /etc/apparmor.d/rstudio-server
-   invoke-rc.d apparmor reload 2>/dev/null
-fi
-
 # add systemd, upstart, or init.d script and start the server
 if test "$INIT_SYSTEM" = "systemd"
 then
    systemctl stop rstudio-server.service 2>/dev/null
    systemctl disable rstudio-server.service 2>/dev/null
-   cp /usr/lib/rstudio-server/extras/systemd/rstudio-server.service /etc/systemd/system/rstudio-server.service
+   cp /usr/lib/rstudio-server/extras/systemd/rstudio-server.service /lib/systemd/system/rstudio-server.service
    systemctl daemon-reload
    systemctl enable rstudio-server.service
    systemctl start rstudio-server.service
