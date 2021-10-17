@@ -1,6 +1,6 @@
-rstudio (1.3.953-bionic1) bionic; urgency=low
+rstudio (2021.09.0-351-bionic3) bionic; urgency=low
 
   * Repack of rstudio-server
 
- -- Jeroen Ooms <jeroen@opencpu.org>  Thu, 28 May 2015 18:00:00 -0800
+ -- Jeroen Ooms <jeroen@opencpu.org>  Sun, 17 Oct 2021 18:00:00 -0800
  
