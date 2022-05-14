@@ -10,3 +10,5 @@ echo "Done!"
 echo "Please update control and changelog file manually (source instead of binary)"
 echo "Input:"
 cat control
+rm -f control
+
