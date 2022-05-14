@@ -2,12 +2,12 @@ Source: rstudio
 Section: devel
 Priority: optional
 Maintainer: RStudio <info@rstudio.com>
-Build-Depends: debhelper (>> 4.1.0), libedit2, libssl1.0.0 | libssl1.0.2 | libssl1.1, libcurl4, libsqlite3-0, libpq5 
+Build-Depends: debhelper (>> 4.1.0), libedit2, libssl-dev, libcurl4, libsqlite3-0, libpq5
 Standards-Version: 3.9.4
 
 Package: rstudio-server
 Architecture: amd64
-Depends: psmisc, libapparmor1, libedit2, sudo, lsb-release, libssl1.0.0 | libssl1.0.2 | libssl1.1, libclang-dev, libsqlite3-0, libpq5,  libc6 (>= 2.7)
+Depends: psmisc, libapparmor1, libedit2, sudo, lsb-release, libssl-dev, libclang-dev, libsqlite3-0, libpq5,  libc6 (>= 2.7)
 Recommends: r-base (>= 3.0.1)
 Description: RStudio Server
  RStudio is a set of integrated tools designed to help you be more productive with R. It includes a console, syntax-highlighting editor that supports direct code execution, as well as tools for plotting, history, and workspace management.

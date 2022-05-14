@@ -1,7 +1,7 @@
 #!/bin/sh
 # Debian dir
 rm *.deb
-wget https://download2.rstudio.org/server/bionic/amd64/rstudio-server-2022.02.2-485-amd64.deb
+wget https://s3.amazonaws.com/rstudio-ide-build/server/jammy/amd64/rstudio-server-2022.06.0-daily-405-amd64.deb
 ar -xv *.deb control.tar.xz
 tar xvf control.tar.xz ./postinst ./postrm ./control
 cp -fv postinst postrm debian/
